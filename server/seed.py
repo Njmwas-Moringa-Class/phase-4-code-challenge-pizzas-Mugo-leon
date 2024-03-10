@@ -29,12 +29,25 @@ with app.app_context():
 
     print("Creating RestaurantPizza...")
 
-    pr1 = RestaurantPizza(restaurant=shack, pizza=cheese, price=1)
-    pr2 = RestaurantPizza(restaurant=bistro, pizza=pepperoni, price=4)
-    pr3 = RestaurantPizza(restaurant=palace, pizza=california, price=5)
-    restaurantPizzas = [pr1, pr2, pr3]
+    # Commit the restaurants and pizzas first to ensure they have IDs
     db.session.add_all(restaurants)
     db.session.add_all(pizzas)
+    db.session.commit()
+
+    # Fetch the IDs of the created restaurants and pizzas
+    shack_id = shack.id
+    bistro_id = bistro.id
+    palace_id = palace.id
+
+    cheese_id = cheese.id
+    pepperoni_id = pepperoni.id
+    california_id = california.id
+
+    pr1 = RestaurantPizza(restaurant_id=shack_id, pizza_id=cheese_id, price=1)
+    pr2 = RestaurantPizza(restaurant_id=bistro_id, pizza_id=pepperoni_id, price=4)
+    pr3 = RestaurantPizza(restaurant_id=palace_id, pizza_id=california_id, price=5)
+    restaurantPizzas = [pr1, pr2, pr3]
+
     db.session.add_all(restaurantPizzas)
     db.session.commit()
 
